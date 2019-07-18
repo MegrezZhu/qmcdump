@@ -12,6 +12,7 @@ int encrypt(int offset, char *buf, int len) {
     for (int i = 0; i < len; ++i) {
         buf[i] ^= mapL(offset + i);
     }
+    return 0;
 }
 
 char mapL(int v) {
