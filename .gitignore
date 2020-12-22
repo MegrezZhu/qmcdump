@@ -1,3 +1,7 @@
 .vscode/
+.idea/
 build/
+cmake-build-debug/
 qmcdump
+.DS_store
+CMakeLists.txt
