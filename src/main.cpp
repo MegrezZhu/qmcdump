@@ -15,7 +15,7 @@ int convertDirectory(const string &inDir, const string &outDir);
 
 
 int main(int argc, char **argv) {
-    if (argc != 2 && argc != 3 && argc != 4) {
+    if (argc != 2 && argc != 3) {
         cerr << "\nUsage\n" << endl;
         cerr << "  qmcdump <input_file_path> [output_file_path]" << endl;
         cerr << "  qmcdump <input_directory> [output_directory]\n" << endl;
