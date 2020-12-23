@@ -2,7 +2,7 @@
 #define QMCDUMP_DIRECTORY_H
 
 #include <string>
-#ifdef WIN32
+#if defined(_WIN32)
 #include <io.h>
 #include <windows.h>
 #include <direct.h>

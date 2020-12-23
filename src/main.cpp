@@ -24,7 +24,7 @@ int main(int argc, char **argv) {
 
     string in = argv[1];
 
-#ifdef WIN32
+#if defined(_WIN32)
     if (in[in.size() - 1] == '\\')
         in.pop_back();
 #else
@@ -34,7 +34,7 @@ int main(int argc, char **argv) {
 
     if (isDirectory(in.c_str())) {
         string out = argc == 3 ? argv[2] : in;
-#ifdef WIN32
+#if defined(_WIN32)
         if (out[out.size() - 1] == '\\')
             out.pop_back();
 #else
@@ -85,7 +85,7 @@ int convertDirectory(const string &inDir, const string &outDir) {
     }
 
     int ret = 0;
-#ifdef WIN32
+#if defined(_WIN32)
     struct _finddata_t fileInfo;
     intptr_t handle = _findfirst((inDir + "\\*").c_str(), &fileInfo);
     if (handle == -1)
@@ -97,7 +97,6 @@ int convertDirectory(const string &inDir, const string &outDir) {
         if (ret)
             return ret;
     } while (!_findnext(handle, &fileInfo));
-    _findclose(handle);
 #else
     DIR *inPath = opendir(inDir.c_str());
     for (dirent *p = readdir(inPath); p != NULL; p = readdir(inPath)) {

@@ -23,7 +23,7 @@ bool isDirectory(const char* path) {
 
 void createMultiStageDir(const string &path) {
     string str1, str2;
-#ifdef WIN32
+#if defined(_WIN32)
     int m = 0;
     str1 = path;
     while (m >= 0) {
