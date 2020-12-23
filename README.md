@@ -6,13 +6,11 @@
 
 添加了对整个文件夹转换操作的支持。
 
-PS：还没有进行Windows环境下的测试.
-
 ## 构建
 
 ### 使用 make
 
-已提供有 `makefile` 文件，直接 `make` 或者 `make install` 即可。
+已提供有 `makefile` 文件，`mac/Linux`环境下直接 `make` 或者 `make install` 即可。
 
 ### 其他方式
 
@@ -20,4 +18,11 @@ PS：还没有进行Windows环境下的测试.
 
 ## 使用
 
-`qmcdump <input_path> [output_path]`
+```sh
+Usage
+
+  qmcdump <input_file_path> [output_file_path]
+  qmcdump <input_directory> [output_directory]
+```
+
+默认输出路径为源文件夹。
