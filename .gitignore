@@ -3,5 +3,6 @@
 build/
 cmake-build-debug/
 qmcdump
+qmcdump.exe
 .DS_store
 CMakeLists.txt
