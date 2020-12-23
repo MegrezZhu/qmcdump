@@ -24,21 +24,30 @@ int main(int argc, char **argv) {
 
     string in = argv[1];
 
-    if (isSingleFile(in.c_str())) {
-        string out = argc == 3 ? argv[2] : convertName(in);
-        return convertSingleFile(in, out);
-    }
+#ifdef WIN32
+    if (in[in.size() - 1] == '\\')
+        in.pop_back();
+#else
+    if (in[in.size() - 1] == '/')
+        in.pop_back();
+#endif
+
     if (isDirectory(in.c_str())) {
         string out = argc == 3 ? argv[2] : in;
 #ifdef WIN32
-        if (in[in.size() - 1] != '\\') in += '\\';
-        if (out[out.size() - 1] != '\\') out += '\\';
+        if (out[out.size() - 1] == '\\')
+            out.pop_back();
 #else
-        if (in[in.size() - 1] != '/') in += '/';
-        if (out[out.size() - 1] != '/') out += '/';
+        if (out[out.size() - 1] == '/')
+            out.pop_back();
 #endif
         return convertDirectory(in, out);
     }
+    else if (isSingleFile(in.c_str())) {
+        string out = argc == 3 ? argv[2] : convertName(in);
+        return convertSingleFile(in, out);
+    }
+
     return 0;
 }
 
@@ -54,8 +63,7 @@ int convertSingleFile(const string &in, const string &out) {
 
 int convertDirectory(const string &inDir, const string &outDir) {
     if (!isDirectory(outDir.c_str())) {
-        cout << "Output path not a directory." << endl;
-
+        cout << "Output path is not a directory." << endl;
         if (access(outDir.c_str(), 0) == -1) {
             cout << "Create Directory " << outDir << "? [y/N] ";
             char opt = getchar();
@@ -75,26 +83,26 @@ int convertDirectory(const string &inDir, const string &outDir) {
             return 1;
         }
     }
-    int ret = 0;
 
+    int ret = 0;
 #ifdef WIN32
     struct _finddata_t fileInfo;
-    int handle = _findfirst(inDir.c_str(), &fileInfo);
+    intptr_t handle = _findfirst((inDir + "\\*").c_str(), &fileInfo);
     if (handle == -1)
         return ret;
-
     do {
         if (strstr(fileInfo.name, ".qmc0") || strstr(fileInfo.name, ".qmc3") || strstr(fileInfo.name, ".qmcflac")) {
-            ret |= convertSingleFile(inDir + string(fileInfo.name), outDir + convertName(string(fileInfo.name)));
+            ret |= convertSingleFile(inDir + '\\' + string(fileInfo.name), outDir + '\\' + convertName(string(fileInfo.name)));
         }
         if (ret)
             return ret;
     } while (!_findnext(handle, &fileInfo));
+    _findclose(handle);
 #else
     DIR *inPath = opendir(inDir.c_str());
     for (dirent *p = readdir(inPath); p != NULL; p = readdir(inPath)) {
         if (strstr(p->d_name, ".qmc0") || strstr(p->d_name, ".qmc3") || strstr(p->d_name, ".qmcflac")) {
-            ret |= convertSingleFile(inDir + string(p->d_name), outDir + convertName(string(p->d_name)));
+            ret |= convertSingleFile(inDir + '/' + string(p->d_name), outDir + '/' + convertName(string(p->d_name)));
         }
         if (ret)
             return ret;

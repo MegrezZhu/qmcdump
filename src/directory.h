@@ -4,7 +4,10 @@
 #include <string>
 #ifdef WIN32
 #include <io.h>
+#include <windows.h>
 #include <direct.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 #else
 #include <sys/stat.h>
 #include <sys/types.h>

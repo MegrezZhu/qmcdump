@@ -25,11 +25,12 @@ void createMultiStageDir(const string &path) {
     string str1, str2;
 #ifdef WIN32
     int m = 0;
-    str2 = path.substr(0, 2);
-    str1 = path.substr(3, path.size());
+    str1 = path;
     while (m >= 0) {
         m = str1.find('\\');
-        str2 += '\\' + str1.substr(0, m);
+        if (!str2.empty())
+            str2 += '\\';
+        str2 += str1.substr(0, m);
         if (access(str2.c_str(), 0) == -1) {
             mkdir(str2.c_str());
         }
@@ -37,11 +38,13 @@ void createMultiStageDir(const string &path) {
     }
 #else
     int m = 0;
-    str2 = "";
-    str1 = path.substr(1, path.size());
+    str1 = path[0] == '/' ? path.substr(1, path.size()) : path;
+    str2 = path[0] == '/' ? "/" : "";
     while (m >= 0) {
         m = str1.find('/');
-        str2 += '/' + str1.substr(0, m);
+        if (str2[str2.size() - 1] != '/')
+            str2.push_back('/');
+        str2 += str1.substr(0, m);
         if (access(str2.c_str(), 0) == -1) {
             mkdir(str2.c_str(), S_IRWXU|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH);
         }
