@@ -123,8 +123,7 @@ string convertName(const string &filename) {
         else if (ext == "qmc0" || ext == "qmc3")
             ext = "mp3";
         else {
-            cerr << "Warning: unknown extname (support: qmcflac, qmc0, qmc3)."
-                 << endl;
+            cerr << "Warning: unknown extname (support: qmcflac, qmc0, qmc3)." << endl;
             ext = "mp3";
         }
         return base + '.' + ext;
