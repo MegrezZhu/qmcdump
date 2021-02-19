@@ -53,12 +53,12 @@ bool convert(const std::string &in, const std::string &out) {
 
     ifstream fin(in, ios::binary);
     if (!fin.is_open()) {
-        cerr << "opening file " << in << " failed.";
+        cerr << "opening file " << in << " failed." << endl;
         return false;
     }
     ofstream fout(out, ios::binary);
     if (!fout.is_open()) {
-        cerr << "opening file " << out << " failed.";
+        cerr << "opening file " << out << " failed." << endl;
         return false;
     }
 
